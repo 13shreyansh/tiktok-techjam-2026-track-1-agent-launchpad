@@ -8,6 +8,15 @@ coverage/
 workspaces/
 data/
 artifacts/
+.data/
+.local/
+codex-home/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+*.pem
+*.key
 *.log
 .DS_Store
-
