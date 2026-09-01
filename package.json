@@ -1,0 +1,35 @@
+{
+  "name": "volc-agent-launchpad",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agent Launchpad with a durable JetStream coordination middleware proof.",
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,web -c cyan,magenta \"npm run dev -w @launchpad/server\" \"npm run dev -w @launchpad/web\"",
+    "build": "npm run build -w @launchpad/web && npm run build -w @launchpad/server",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test -w @launchpad/server",
+    "check": "npm run typecheck && npm run test && npm run build",
+    "poc": "./scripts/start-local-poc.sh",
+    "relay": "./scripts/start-relay-demo.sh",
+    "verify:relay-live": "./scripts/verify-live-relay.sh",
+    "verify:relay-sse": "./scripts/verify-relay-sse.sh",
+    "verify:relay-restart": "./scripts/verify-coordinator-restart.sh",
+    "verify:relay-cancel": "./scripts/verify-relay-cancellation.sh",
+    "verify:relay-disconnect": "./scripts/verify-relay-disconnect.sh",
+    "verify:relay-reuse": "./scripts/verify-relay-reuse.sh",
+    "verify:runtime-contract": "./scripts/verify-local-runtime-contract.sh",
+    "verify:relay": "npm run check && npm run verify:relay-live && npm run verify:relay-restart && npm run verify:relay-cancel && npm run verify:relay-disconnect && npm run verify:relay-reuse && npm run verify:relay-sse",
+    "start": "npm run start -w @launchpad/server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.3"
+  }
+}

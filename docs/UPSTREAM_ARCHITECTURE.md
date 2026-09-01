@@ -5,8 +5,10 @@ Source: organizer-provided `RrankPyramid/CodeJam` commit
 unmodified starter; it does not propose or implement a judged solution.
 
 The upstream `hackathon-v2-skeleton.xml` title identifies this as **CodeJam
-Track #5 v2 — Agent Middleware Challenge**. The local `track-1` path is an
-isolated task label, not an asserted organizer track number.
+Track #5 v2 — Agent Middleware Challenge**. The released public statement now
+numbers it **1. Agent Launchpad: Design and Build Lightweight Agent
+Middleware**. The mismatch is recorded as versioned provenance: the public
+release controls current challenge naming.
 
 ## Request and runtime path
 
@@ -76,6 +78,23 @@ Codex; if Landlock is unavailable, the script falls back to
 `danger-full-access` only inside the disposable outer container and warns that
 this is not tenant isolation. The runtime image pins `@openai/codex@0.111.0`.
 
+## Codex event boundary at the pinned version
+
+OpenAI's source tag for `0.111.0` defines the `codex exec --json` stream with
+`thread.started`, `turn.started`, `turn.completed`, `turn.failed`,
+`item.started`, `item.updated`, `item.completed`, and fatal `error` events.
+Typed items include agent messages, reasoning summaries, command executions,
+file changes, MCP calls, web searches, todo lists, and non-fatal errors.
+Command items carry status, aggregate output, and exit code; file-change items
+carry paths, change kinds, and status; completed turns carry token usage.
+
+The unmodified Launchpad parser consumes only the thread ID, completed agent
+message, completed-turn usage, and top-level error. It does not persist or
+display the other item lifecycle events or `turn.failed`. This is a factual
+baseline limitation: structured runtime activity exists at the Runner boundary
+but most of it is discarded before the service and browser. Source schema:
+<https://github.com/openai/codex/blob/8c75cd9afcd405d134530e53c78e5e0e4e5312a3/codex-rs/exec/src/exec_events.rs>.
+
 ## Documented acceptance path
 
 The upstream local SOP requires Node.js 22+, npm 10+, one supported container
@@ -103,8 +122,10 @@ also warns that Terraform POC state contains the Ark key. These constraints
 are why runtime state, Terraform state, keys, logs, and screenshots remain
 ignored here.
 
-The upstream extension guide names three middleware seams—trace/audit,
-identity/authorization, and safety/sandboxing—and requires one real end-to-end
-middleware behavior plus positive and failure/denial evidence. This
-preparation snapshot records those organizer requirements only; selection and
-implementation are deferred until the challenge window.
+The upstream extension guide names trace/audit, identity/authorization, and
+safety/sandboxing seams. The released statement broadens these into five
+recommended examples plus arbitrary team-designed middleware and explicitly
+allows choosing, combining, simplifying, replacing, or inventing
+capabilities. The current requirements are reconciled in
+[RELEASED_CHALLENGE_MATRIX.md](RELEASED_CHALLENGE_MATRIX.md); selection and
+implementation remain deferred until the challenge window.
